@@ -45,5 +45,5 @@ def lambda_handler(event, context):
         
     return {
         'statusCode': 200,
-        'body': json.dumps('Success')
+        'body': json.dumps('Successfully read .csv file and updated DynamoDB databse')
     }
