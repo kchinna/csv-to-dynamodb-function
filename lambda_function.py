@@ -4,6 +4,8 @@ import boto3
 import random
 
 
+# Move data from .csv file to DynamoDB
+# This program is used for moving data from a Google Forms responses spreadsheet
 def lambda_handler(event, context):
     region = 'us-west-1'
     entries = []
@@ -20,15 +22,19 @@ def lambda_handler(event, context):
         
         # Loop through rows in the provided .csv file
         for row in read_file:
+            # Variables store each entry from current row
             id = row[0]
             first_name = row[1]
             last_name = row[2]
             email = row[3]
+            # Create a password for user
             password = hex(random.randrange(0, 100000))
             
             try:
+                # Adding data to DynamoDB
                 add = database.put_item(
                     TableName = 'csv-dynamodb-kc', 
+                    # Row entry to be added to database
                     Item = {
                         'id': {'N': str(id)},
                         'first_name' : {'S': str(first_name)},
@@ -46,5 +52,5 @@ def lambda_handler(event, context):
         
     return {
         'statusCode': 200,
-        'body': json.dumps('Successfully read .csv file and updated DynamoDB databse')
+        'body': json.dumps('Successfully read .csv file and updated DynamoDB database')
     }
