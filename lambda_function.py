@@ -30,7 +30,7 @@ def lambda_handler(event, context):
             last_name = row[2]
             email = row[3]
             # Create a password for user
-            password = hex(random.randrange(0, 100000))
+            password = hex(random.randrange(0, 1000000))
             
             try:
                 # Adding data to DynamoDB
