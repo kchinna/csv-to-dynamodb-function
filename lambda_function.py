@@ -16,7 +16,9 @@ def lambda_handler(event, context):
         bucket = event['Records'][0]['s3']['bucket']['name']
         key = event['Records'][0]['s3']['object']['key']
         
+        # Get file from S3 bucket
         file = s3.get_object(Bucket = bucket, Key = key)
+        # Get data currently in database
         entries = file['Body'].read().decode('utf-8').split('\n')
         read_file = csv.reader(entries, delimiter = ',', quotechar = '"')
         
@@ -33,6 +35,7 @@ def lambda_handler(event, context):
             try:
                 # Adding data to DynamoDB
                 add = database.put_item(
+                    # Name of table to which data is added
                     TableName = 'csv-dynamodb-kc', 
                     # Row entry to be added to database
                     Item = {
